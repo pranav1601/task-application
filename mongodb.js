@@ -3,9 +3,6 @@ const {MongoClient,ObjectID}=require('mongodb')
 const connectionURL='mongodb://127.0.0.1:27017'
 const databaseName='task-application'
 
-const id=new ObjectID()
-console.log(id.id.length)
-
 MongoClient.connect(connectionURL,{useNewUrlParser:true},(error,client)=>{
     if(error){
         return console.log('Unable to connect to database!')
@@ -13,15 +10,36 @@ MongoClient.connect(connectionURL,{useNewUrlParser:true},(error,client)=>{
 
     const db=client.db(databaseName)
 
-    db.collection('users').findOne({_id: new ObjectID("6078dc1bf7a62d72040e75ec")},(error,user)=>{
-        if(error){
-            return console.log('unable to fetch')
+    db.collection('users').updateOne({
+        _id:new ObjectID("6078dc1bf7a62d72040e75ec")
+    },{
+        $set:{
+            name:'Mike'
+        },
+        $inc:{
+            age:21
         }
-        console.log(user)
+
+    }).then((result)=>{
+        console.log(result)
+    }).catch((error)=>{
+        console.log(error)
     })
 
-    db.collection('users').find({name:'Pranav'}).toArray((error,users)=>{
-        console.log(users)
+    db.collection('users').updateMany({
+        name:'Prabhat'
+    },{
+        $set:{
+            name:'Mike'
+        },
+        $inc:{
+            age:21
+        }
+
+    }).then((result)=>{
+        console.log(result)
+    }).catch((error)=>{
+        console.log(error)
     })
 
     
