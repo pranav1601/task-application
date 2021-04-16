@@ -1,8 +1,10 @@
-const mongodb=require('mongodb')
-const MongoClient=mongodb.MongoClient
+const {MongoClient,ObjectID}=require('mongodb')
 
 const connectionURL='mongodb://127.0.0.1:27017'
 const databaseName='task-application'
+
+const id=new ObjectID()
+console.log(id.id.length)
 
 MongoClient.connect(connectionURL,{useNewUrlParser:true},(error,client)=>{
     if(error){
@@ -11,42 +13,17 @@ MongoClient.connect(connectionURL,{useNewUrlParser:true},(error,client)=>{
 
     const db=client.db(databaseName)
 
-    // db.collection('users').insertOne({
-    //     name:'Pranav',
-    //     age:21
-    // },(error,result)=>{
-    //     if(error){
-    //         return console.log('Unavle to insert user')
-    //     }
-    //     console.log(result.ops)
-    // })
-
-    // db.collection('users').insertMany([{
-    //     name:'Pranav',
-    //     age:21
-    //     },{
-    //         name:'Prabhat',
-    //         age:25
-    //     }
-    // ],(error,result)=>{
-    //     if(error){
-    //         return console.log('Unable to insert users')
-    //     }
-    //     console.log(result.ops)
-    // })
-
-    db.collection('tasks').insertMany([
-        {
-            description:'Finished studying',
-            completed:false
-        },{
-            description:'Finshed playing',
-            completed:true
-        }
-    ],(error,result)=>{
+    db.collection('users').findOne({_id: new ObjectID("6078dc1bf7a62d72040e75ec")},(error,user)=>{
         if(error){
-            return console.log('Unable to add tasks')
+            return console.log('unable to fetch')
         }
-        console.log(result.ops)
-    })    
+        console.log(user)
+    })
+
+    db.collection('users').find({name:'Pranav'}).toArray((error,users)=>{
+        console.log(users)
+    })
+
+    
+
 })
