@@ -1,5 +1,5 @@
 const express=require('express')
-const Task=require('../models/user')
+const Task=require('../models/task')
 const router= new express.Router()
 
 router.post('/tasks',async(req,res)=>{
@@ -8,7 +8,7 @@ router.post('/tasks',async(req,res)=>{
         await task.save()
         res.status(201).send(task)
     } catch (error) {
-        res.status(400).send(e)
+        res.status(400).send(error)
     }
     
 })
@@ -19,7 +19,7 @@ router.get('/tasks',async(req,res)=>{
         const tasks=await Task.find({})
         res.send(tasks)
     } catch (error) {
-        res.status(500).send()
+        res.status(500).send(error)
     }
 })
 
@@ -33,7 +33,7 @@ router.get('/tasks/:id',async(req,res)=>{
         }
         res.send(task)
     } catch (error) {
-        res.status(500).send()
+        res.status(500).send(error)
     }
 })
 
@@ -47,7 +47,11 @@ router.patch('/tasks/:id',async(req,res)=>{
     }
 
     try {
-        const task=await Task.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
+        const task=await Task.findById(req.params.id)
+
+        updates.forEach((update)=>task[update]=req.body[update])
+
+        await task.save()
 
         if(!task){
             return res.status(404).send()
@@ -70,7 +74,7 @@ router.delete('/tasks/:id',async(req,res)=>{
     
         res.status(200).send(task)
     } catch (error) {
-        res.status(500).send()
+        res.status(500).send(error)
     }
     
 })
