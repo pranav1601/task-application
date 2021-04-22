@@ -25,7 +25,10 @@ router.get('/tasks',auth,async(req,res)=>{
     }
     
     try {
-        const tasks=await Task.find({owner:req.user._id,...match})
+        const tasks=await Task.find({owner:req.user._id,...match},null,{
+            limit:parseInt(req.query.limit),
+            skip:parseInt(req.query.skip)
+        })
         res.send(tasks)
     } catch (error) {
         res.status(500).send(error)
