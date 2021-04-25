@@ -1,6 +1,7 @@
 # Task-Application-only BACKEND
 
-A nodejs backend run application that can be used to create users and tasks for them as well. The application uses express for providing the server. It is hosted on heroku.<br/><br/>
+A nodejs backend run application that can be used to create users and tasks for them as well. It uses MongoDB for the provision of database. The application uses express for providing the server. It is authenticated on the client side using JWT tokens so that a user cannot retrieve another user's details or another user's task details. It is hosted on heroku.<br/><br/>
+
 
 The project uses npm version 7.6.0 and Node.js v12.20.2.
 
@@ -74,7 +75,8 @@ Enter a sample task like <br/>
 Enter a sample update like <br/>
 ```{
     "name":"pranav agarwal"
-}```
+}
+```
 * send it and the user will be updated.
 
 #### delete user details
